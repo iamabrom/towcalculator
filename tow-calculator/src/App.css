@@ -63,9 +63,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .input-group {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 12px;
-  /* Space between each group */
+  border: 1px solid #ccc;
+  padding: 8px;
 }
 
 .input-group label,
@@ -83,7 +84,9 @@ input[type="number"],
   vertical-align: bottom;
   margin-left: 2px;
   font-size: 1em;
-  width: 150px
+  width: 150px;
+  border: 1px solid #ccc;
+  padding: 5px;
 }
 
 .footer {
@@ -103,4 +106,28 @@ input[type="number"],
 
 .footer a:hover {
   color: hotpink;
+}
+
+@media screen and (max-width: 600px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  input[type="number"],
+  .input-group .result-value {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+    padding: 2px
+  }
+
+  .input-group label,
+  .input-group .result-label {
+    width: auto;
+  }
+
+  button {
+    padding: 15px 20px;
+    font-size: 16px;
+  }
 }
