@@ -67,6 +67,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 12px;
   border: 1px solid #ccc;
   padding: 8px;
+  border-radius: 5px;
 }
 
 .input-group label,
@@ -74,7 +75,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-right: 10px;
   width: 275px;
   font-size: 1em;
-  /* Adjust based on the longest label */
+  border-radius: 5px;
 }
 
 input[type="number"],
@@ -117,7 +118,7 @@ input[type="number"],
   .input-group .result-value {
     margin-left: 0;
     margin-top: 10px;
-    width: 100%;
+    width: 90%;
     padding: 2px
   }
 
