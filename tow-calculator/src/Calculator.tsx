@@ -1,69 +1,199 @@
 import React, { useState, useEffect } from "react";
 
 const Calculator = () => {
-  // Initialize state with values from localStorage or default to empty strings
-  const [value1, setValue1] = useState<string>(
-    localStorage.getItem("value1") || ""
+  // RV dry weight
+  const [rvDryWeight, setrvDryWeight] = useState<string>(
+    localStorage.getItem("rvDryWeight") || ""
   );
-  const [value2, setValue2] = useState<string>(
-    localStorage.getItem("value2") || ""
+  // RV GVWR
+  const [rvGVWR, setrvGVWR] = useState<string>(
+    localStorage.getItem("rvGVWR") || ""
   );
-  const [value3, setValue3] = useState<string>(
-    localStorage.getItem("value3") || ""
+  // RV Hitch Weight
+  const [rvHitchWeight, setrvHitchWeight] = useState<string>(
+    localStorage.getItem("rvHitchWeight") || ""
   );
-  const [result, setResult] = useState<number>(0);
+  // Truck GVWR
+  const [truckGVWR, settruckGVWR] = useState<string>(
+    localStorage.getItem("truckGVWR") || ""
+  );
+  // Truck GCWR
+  const [truckGCWR, settruckGCWR] = useState<string>(
+    localStorage.getItem("truckGCWR") || ""
+  );
 
-  // Update localStorage whenever the values change
+  // Truck Payload Capacity
+  const [truckPayloadCapacity, settruckPayloadCapacity] = useState<string>(
+    localStorage.getItem("truckPayloadCapacity") || ""
+  );
+
+  // Truck GVWR & Payload
+  const [truckPassengers, settruckPassengers] = useState<string>(
+    localStorage.getItem("truckPassengers") || ""
+  );
+
+  // Truck Cargo
+  const [truckCargo, settruckCargo] = useState<string>(
+    localStorage.getItem("truckCargo") || ""
+  );
+
+  const [truckCurbWeight, settruckCurbWeight] = useState<number>(0);
+  const [truckTowingCapacity, settruckTowingCapacity] = useState<number>(0);
+  const [truckTotalPayload, settruckTotalPayload] = useState<number>(0);
+  const [truckTotalPayloadHitched, settruckTotalPayloadHitched] =
+    useState<number>(0);
+  const [truckPayloadLeftover, settruckPayloadLeftover] = useState<number>(0);
+
   useEffect(() => {
-    localStorage.setItem("value1", value1);
-    localStorage.setItem("value2", value2);
-    localStorage.setItem("value3", value3);
-  }, [value1, value2, value3]);
+    localStorage.setItem("rvDryWeight", rvDryWeight);
+    localStorage.setItem("rvGVWR", rvGVWR);
+    localStorage.setItem("rvHitchWeight", rvHitchWeight);
+    localStorage.setItem("truckGVWR", truckGVWR);
+    localStorage.setItem("truckGCWR", truckGCWR);
+    localStorage.setItem("truckPayloadCapacity", truckPayloadCapacity);
+    localStorage.setItem("truckPassengers", truckPassengers);
+    localStorage.setItem("truckCargo", truckCargo);
 
-  // Function to handle the calculation
-  const handleCalculation = () => {
-    const num1 = parseFloat(value1) || 0;
-    const num2 = parseFloat(value2) || 0;
-    const num3 = parseFloat(value3) || 0;
-    const sum = num1 + num2;
-    setResult(sum - num3);
-  };
+    const CALrvDryWeight = parseFloat(rvDryWeight) || 0;
+    const CALrvGVWR = parseFloat(rvGVWR) || 0;
+    const CALrvHitchWeight = parseFloat(rvHitchWeight) || 0;
+    const CALtruckGVWR = parseFloat(truckGVWR) || 0;
+    const CALtruckGCWR = parseFloat(truckGCWR) || 0;
+    const CALtruckPayloadCapacity = parseFloat(truckPayloadCapacity) || 0;
+    const CALtruckPassengers = parseFloat(truckPassengers) || 0;
+    const CALtruckCargo = parseFloat(truckCargo) || 0;
+
+    settruckCurbWeight(CALtruckGVWR - CALtruckPayloadCapacity);
+    settruckTowingCapacity(CALtruckGCWR - CALtruckGVWR);
+    settruckTotalPayload(CALtruckPassengers + CALtruckCargo);
+    settruckTotalPayloadHitched(truckTotalPayload + CALrvHitchWeight);
+    settruckPayloadLeftover(CALtruckPayloadCapacity - truckTotalPayloadHitched);
+  }, [
+    truckGVWR,
+    truckPayloadCapacity,
+    truckGCWR,
+    truckPassengers,
+    truckCargo,
+    rvHitchWeight,
+    rvDryWeight,
+    rvGVWR,
+    truckTotalPayloadHitched,
+  ]);
 
   return (
     <div>
       <div>
-        <img src="https://weekendrvers.com/wp-content/uploads/2023/11/WRVers-Logo-Small.png"></img>
+        <img src="/logo512.png"></img>
         <h2>Towing Calculator</h2>
       </div>
-      <label>
-        Value 1:
+      <h3>RV Specs</h3>
+      <div className="input-group">
+        <label>Dry Weight:</label>
         <input
           type="number"
-          value={value1}
-          onChange={(e) => setValue1(e.target.value)}
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
         />
-      </label>
-      <br />
-      <label>
-        Value 2:
+      </div>
+      <div className="input-group">
+        <label>GVWR:</label>
         <input
           type="number"
-          value={value2}
-          onChange={(e) => setValue2(e.target.value)}
+          value={rvGVWR}
+          onChange={(e) => setrvGVWR(e.target.value)}
         />
-      </label>
-      <br />
-      <label>
-        Subtract Value:
+      </div>
+      <div className="input-group">
+        <label>Hitch Weight:</label>
         <input
           type="number"
-          value={value3}
-          onChange={(e) => setValue3(e.target.value)}
+          value={rvHitchWeight}
+          onChange={(e) => setrvHitchWeight(e.target.value)}
         />
-      </label>
-      <br />
-      <button onClick={handleCalculation}>Calculate</button>
-      <p>Result: {result}</p>
+      </div>
+      <h3>Truck Specs</h3>
+      <div className="input-group">
+        <label>GVWR:</label>
+        <input
+          type="number"
+          value={truckGVWR}
+          onChange={(e) => settruckGVWR(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>GCWR:</label>
+        <input
+          type="number"
+          value={truckGCWR}
+          onChange={(e) => settruckGCWR(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Payload Capacity:</label>
+        <input
+          type="number"
+          value={truckPayloadCapacity}
+          onChange={(e) => settruckPayloadCapacity(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <span className="result-label">Curb Weight:</span>
+        <span className="result-value">{truckCurbWeight.toLocaleString()}</span>
+      </div>
+      <div className="input-group">
+        <span className="result-label">Towing Capacity:</span>
+        <span className="result-value">
+          {truckTowingCapacity.toLocaleString()}
+        </span>
+      </div>
+      <h3>Truck GVWR & Payload</h3>
+      <div className="input-group">
+        <label>Passengers</label>
+        <input
+          type="number"
+          value={truckPassengers}
+          onChange={(e) => settruckPassengers(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Cargo</label>
+        <input
+          type="number"
+          value={truckCargo}
+          onChange={(e) => settruckCargo(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <span className="result-label">Total Payload (no hitch):</span>
+        <span className="result-value">
+          {truckTotalPayload.toLocaleString()}
+        </span>
+      </div>
+      <div className="input-group">
+        <span className="result-label">RV Hitch Weight:</span>
+        <span className="result-value">{rvHitchWeight.toLocaleString()}</span>
+      </div>
+      <div className="input-group">
+        <span className="result-label">Total payload (w/ hitch):</span>
+        <span className="result-value">
+          {truckTotalPayloadHitched.toLocaleString()}
+        </span>
+      </div>
+      <div className="input-group">
+        <span className="result-label">Leftover Truck Payload:</span>
+        <span className="result-value">
+          {truckPayloadLeftover.toLocaleString()}
+        </span>
+      </div>
+      <div className="footer">
+        <hr></hr>
+        <p>
+          ©2023{" "}
+          <a href="https://weekendrvers.com" target="_blank">
+            weekendrvers.com
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

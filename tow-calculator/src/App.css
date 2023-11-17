@@ -7,6 +7,14 @@
   pointer-events: none;
 }
 
+h2 {
+  text-align: center;
+}
+
+h3 {
+  text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -29,7 +37,7 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: top;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1.5vmin);
   color: white;
 }
 
@@ -47,14 +55,52 @@ img {
   }
 }
 
-/* For webkit browsers like Chrome, Safari */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* For Mozilla Firefox */
-input[type="number"] {
+.input-group {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 12px;
+  /* Space between each group */
+}
+
+.input-group label,
+.input-group .result-label {
+  margin-right: 10px;
+  width: 275px;
+  font-size: 1em;
+  /* Adjust based on the longest label */
+}
+
+input[type="number"],
+.input-group .result-value {
   -moz-appearance: textfield;
+  flex-grow: 1;
+  vertical-align: bottom;
+  margin-left: 2px;
+  font-size: 1em;
+  width: 150px
+}
+
+.footer {
+  font-size: .69em;
+  font-style: italic;
+  text-align: center;
+  margin-top: 70px;
+}
+
+.footer a:link {
+  color: white;
+}
+
+.footer a:visited {
+  color: white;
+}
+
+.footer a:hover {
+  color: hotpink;
 }
