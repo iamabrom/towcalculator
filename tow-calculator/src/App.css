@@ -87,7 +87,8 @@ input[type="number"],
   font-size: 1em;
   width: 150px;
   border: 1px solid #ccc;
-  padding: 5px;
+  padding: 7px;
+  border-radius: 5px;
 }
 
 .footer {
