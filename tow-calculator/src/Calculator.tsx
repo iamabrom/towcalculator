@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const Calculator = () => {
+  // ============================ User Inputs ============================
   // RV dry weight
   const [rvDryWeight, setrvDryWeight] = useState<string>(
     localStorage.getItem("rvDryWeight") || ""
@@ -37,6 +38,7 @@ const Calculator = () => {
     localStorage.getItem("truckCargo") || ""
   );
 
+  // ============================ Calculated Outputs ============================
   const [truckCurbWeight, settruckCurbWeight] = useState<number>(0);
   const [truckTowingCapacity, settruckTowingCapacity] = useState<number>(0);
   const [truckTotalPayload, settruckTotalPayload] = useState<number>(0);
@@ -44,6 +46,7 @@ const Calculator = () => {
     useState<number>(0);
   const [truckPayloadLeftover, settruckPayloadLeftover] = useState<number>(0);
 
+  // ============================ Local storage for all user inputs ============================
   useEffect(() => {
     localStorage.setItem("rvDryWeight", rvDryWeight);
     localStorage.setItem("rvGVWR", rvGVWR);
@@ -54,8 +57,7 @@ const Calculator = () => {
     localStorage.setItem("truckPassengers", truckPassengers);
     localStorage.setItem("truckCargo", truckCargo);
 
-    const CALrvDryWeight = parseFloat(rvDryWeight) || 0;
-    const CALrvGVWR = parseFloat(rvGVWR) || 0;
+    // ============================ Math parsing ============================
     const CALrvHitchWeight = parseFloat(rvHitchWeight) || 0;
     const CALtruckGVWR = parseFloat(truckGVWR) || 0;
     const CALtruckGCWR = parseFloat(truckGCWR) || 0;
@@ -63,6 +65,7 @@ const Calculator = () => {
     const CALtruckPassengers = parseFloat(truckPassengers) || 0;
     const CALtruckCargo = parseFloat(truckCargo) || 0;
 
+    // ============================ Math calculations ============================
     settruckCurbWeight(CALtruckGVWR - CALtruckPayloadCapacity);
     settruckTowingCapacity(CALtruckGCWR - CALtruckGVWR);
     settruckTotalPayload(CALtruckPassengers + CALtruckCargo);
@@ -80,12 +83,52 @@ const Calculator = () => {
     truckTotalPayloadHitched,
   ]);
 
+  // ============================ HTML components ============================
   return (
     <div>
       <div>
         <img src="/logo512.png"></img>
         <h2>Towing Calculator</h2>
+        {/* ============================ Truck Specs ============================ */}
+        <h3>Truck Specs</h3>
+        <div className="input-group">
+          <label>GVWR:</label>
+          <input
+            type="number"
+            value={truckGVWR}
+            onChange={(e) => settruckGVWR(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label>GCWR:</label>
+          <input
+            type="number"
+            value={truckGCWR}
+            onChange={(e) => settruckGCWR(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label>Payload Capacity:</label>
+          <input
+            type="number"
+            value={truckPayloadCapacity}
+            onChange={(e) => settruckPayloadCapacity(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <span className="result-label">Curb Weight:</span>
+          <span className="result-value">
+            {truckCurbWeight.toLocaleString()}
+          </span>
+        </div>
+        <div className="input-group">
+          <span className="result-label">Towing Capacity:</span>
+          <span className="result-value">
+            {truckTowingCapacity.toLocaleString()}
+          </span>
+        </div>
       </div>
+      {/* ============================ RV Specs ============================ */}
       <h3>RV Specs</h3>
       <div className="input-group">
         <label>Dry Weight:</label>
@@ -111,41 +154,7 @@ const Calculator = () => {
           onChange={(e) => setrvHitchWeight(e.target.value)}
         />
       </div>
-      <h3>Truck Specs</h3>
-      <div className="input-group">
-        <label>GVWR:</label>
-        <input
-          type="number"
-          value={truckGVWR}
-          onChange={(e) => settruckGVWR(e.target.value)}
-        />
-      </div>
-      <div className="input-group">
-        <label>GCWR:</label>
-        <input
-          type="number"
-          value={truckGCWR}
-          onChange={(e) => settruckGCWR(e.target.value)}
-        />
-      </div>
-      <div className="input-group">
-        <label>Payload Capacity:</label>
-        <input
-          type="number"
-          value={truckPayloadCapacity}
-          onChange={(e) => settruckPayloadCapacity(e.target.value)}
-        />
-      </div>
-      <div className="input-group">
-        <span className="result-label">Curb Weight:</span>
-        <span className="result-value">{truckCurbWeight.toLocaleString()}</span>
-      </div>
-      <div className="input-group">
-        <span className="result-label">Towing Capacity:</span>
-        <span className="result-value">
-          {truckTowingCapacity.toLocaleString()}
-        </span>
-      </div>
+      {/* ============================ Truck GVWR & Payload ============================ */}
       <h3>Truck GVWR & Payload</h3>
       <div className="input-group">
         <label>Passengers</label>
@@ -185,6 +194,83 @@ const Calculator = () => {
           {truckPayloadLeftover.toLocaleString()}
         </span>
       </div>
+      {/* ============================ RV GVWR & Payload ============================ */}
+      <h3>RV GVWR & Payload</h3>
+      <div className="input-group">
+        <label>Dry Weight:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Total Water:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Propane:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Batteries:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Camping Gear:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Food/Clothes/Misc:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>Gross Weight Estimate:</label>
+        <input
+          type="number"
+          value={rvDryWeight}
+          onChange={(e) => setrvDryWeight(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>RV GVWR:</label>
+        <input
+          type="number"
+          value={rvGVWR}
+          onChange={(e) => setrvGVWR(e.target.value)}
+        />
+      </div>
+      <div className="input-group">
+        <label>RV Available Payload:</label>
+        <input
+          type="number"
+          value={rvGVWR}
+          onChange={(e) => setrvGVWR(e.target.value)}
+        />
+      </div>
+      {/* ============================ GCWR and Tow Capacity ============================ */}
+      <h3>GCWR and Tow Capacity</h3>
+
       <div className="footer">
         <hr></hr>
         <p>
