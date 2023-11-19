@@ -55,6 +55,14 @@ img {
   }
 }
 
+.HelpText {
+  font-size: .72em;
+  font-style: italic;
+  color: #BEBEBE;
+  margin-left: 30px;
+  max-width: 400px;
+}
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -64,7 +72,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .input-group {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 2px;
+  margin-top: 10px;
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 5px;

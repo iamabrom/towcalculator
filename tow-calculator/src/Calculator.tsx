@@ -38,6 +38,30 @@ const Calculator = () => {
     localStorage.getItem("truckCargo") || ""
   );
 
+  // RV Payload: Total Water
+  const [rvPayloadWater, setrvPayloadWater] = useState<string>(
+    localStorage.getItem("rvPayloadWater") || ""
+  );
+
+  // RV Payload: Total Propane
+  const [rvPayloadPropane, setrvPayloadPropane] = useState<string>(
+    localStorage.getItem("rvPayloadPropane") || ""
+  );
+
+  // RV Payload: Total Batteries
+  const [rvPayloadBatteries, setrvPayloadBatteries] = useState<string>(
+    localStorage.getItem("rvPayloadBatteries") || ""
+  );
+
+  // RV Payload: Total Camping Gear
+  const [rvPayloadCampingGear, setrvPayloadCampingGear] = useState<string>(
+    localStorage.getItem("rvPayloadCampingGear") || ""
+  );
+
+  // RV Payload: Total Food, Clothes, Misc
+  const [rvPayloadFoodClothesMisc, setrvPayloadFoodClothesMisc] =
+    useState<string>(localStorage.getItem("rvPayloadFoodClothesMisc") || "");
+
   // ============================ Calculated Outputs ============================
   const [truckCurbWeight, settruckCurbWeight] = useState<number>(0);
   const [truckTowingCapacity, settruckTowingCapacity] = useState<number>(0);
@@ -45,6 +69,8 @@ const Calculator = () => {
   const [truckTotalPayloadHitched, settruckTotalPayloadHitched] =
     useState<number>(0);
   const [truckPayloadLeftover, settruckPayloadLeftover] = useState<number>(0);
+  const [rvGrossWeightEstimate, setrvGrossWeightEstimate] = useState<number>(0);
+  const [rvAvailablePayload, setrvAvailablePayload] = useState<number>(0);
 
   // ============================ Local storage for all user inputs ============================
   useEffect(() => {
@@ -56,6 +82,11 @@ const Calculator = () => {
     localStorage.setItem("truckPayloadCapacity", truckPayloadCapacity);
     localStorage.setItem("truckPassengers", truckPassengers);
     localStorage.setItem("truckCargo", truckCargo);
+    localStorage.setItem("rvPayloadWater", rvPayloadWater);
+    localStorage.setItem("rvPayloadPropane", rvPayloadPropane);
+    localStorage.setItem("rvPayloadBatteries", rvPayloadBatteries);
+    localStorage.setItem("rvPayloadCampingGear", rvPayloadCampingGear);
+    localStorage.setItem("rvPayloadFoodClothesMisc", rvPayloadFoodClothesMisc);
 
     // ============================ Math parsing ============================
     const CALrvHitchWeight = parseFloat(rvHitchWeight) || 0;
@@ -64,6 +95,14 @@ const Calculator = () => {
     const CALtruckPayloadCapacity = parseFloat(truckPayloadCapacity) || 0;
     const CALtruckPassengers = parseFloat(truckPassengers) || 0;
     const CALtruckCargo = parseFloat(truckCargo) || 0;
+    const CALrvGVWR = parseFloat(rvGVWR) || 0;
+    const CALrvDryWeight = parseFloat(rvDryWeight) || 0;
+    const CALrvPayloadWater = parseFloat(rvPayloadWater) || 0;
+    const CALrvPayloadPropane = parseFloat(rvPayloadPropane) || 0;
+    const CALrvPayloadBatteries = parseFloat(rvPayloadBatteries) || 0;
+    const CALrvPayloadCampingGear = parseFloat(rvPayloadCampingGear) || 0;
+    const CALrvPayloadFoodClothesMisc =
+      parseFloat(rvPayloadFoodClothesMisc) || 0;
 
     // ============================ Math calculations ============================
     settruckCurbWeight(CALtruckGVWR - CALtruckPayloadCapacity);
@@ -71,6 +110,15 @@ const Calculator = () => {
     settruckTotalPayload(CALtruckPassengers + CALtruckCargo);
     settruckTotalPayloadHitched(truckTotalPayload + CALrvHitchWeight);
     settruckPayloadLeftover(CALtruckPayloadCapacity - truckTotalPayloadHitched);
+    setrvGrossWeightEstimate(
+      CALrvDryWeight +
+        CALrvPayloadWater +
+        CALrvPayloadPropane +
+        CALrvPayloadBatteries +
+        CALrvPayloadCampingGear +
+        CALrvPayloadFoodClothesMisc
+    );
+    setrvAvailablePayload(CALrvGVWR - rvGrossWeightEstimate);
   }, [
     truckGVWR,
     truckPayloadCapacity,
@@ -80,8 +128,20 @@ const Calculator = () => {
     rvHitchWeight,
     rvDryWeight,
     rvGVWR,
+    truckTotalPayload,
     truckTotalPayloadHitched,
+    rvGrossWeightEstimate,
+    rvAvailablePayload,
+    rvPayloadWater,
+    rvPayloadPropane,
+    rvPayloadBatteries,
+    rvPayloadCampingGear,
+    rvPayloadFoodClothesMisc,
   ]);
+
+  // const formatNumber = (num) => {
+  //   return num.toLocaleString();
+  // };
 
   // ============================ HTML components ============================
   return (
@@ -121,12 +181,14 @@ const Calculator = () => {
             {truckCurbWeight.toLocaleString()}
           </span>
         </div>
+        <div className="HelpText">GVWR - Payload</div>
         <div className="input-group">
           <span className="result-label">Towing Capacity:</span>
           <span className="result-value">
             {truckTowingCapacity.toLocaleString()}
           </span>
         </div>
+        <div className="HelpText">GCWR - GVWR (assumes payload is at max)</div>
       </div>
       {/* ============================ RV Specs ============================ */}
       <h3>RV Specs</h3>
@@ -178,99 +240,100 @@ const Calculator = () => {
           {truckTotalPayload.toLocaleString()}
         </span>
       </div>
+      <div className="HelpText">Passengers + Cargo</div>
       <div className="input-group">
         <span className="result-label">RV Hitch Weight:</span>
         <span className="result-value">{rvHitchWeight.toLocaleString()}</span>
       </div>
+      <div className="HelpText">Entered above in RV specs</div>
       <div className="input-group">
         <span className="result-label">Total payload (w/ hitch):</span>
         <span className="result-value">
           {truckTotalPayloadHitched.toLocaleString()}
         </span>
       </div>
+      <div className="HelpText">Total payload + Hitch weight</div>
       <div className="input-group">
-        <span className="result-label">Leftover Truck Payload:</span>
+        <span className="result-label">Truck Available Payload:</span>
         <span className="result-value">
           {truckPayloadLeftover.toLocaleString()}
         </span>
       </div>
+      <div className="HelpText">
+        Available payload in truck. Negative number here means truck is
+        overloaded.
+      </div>
       {/* ============================ RV GVWR & Payload ============================ */}
       <h3>RV GVWR & Payload</h3>
       <div className="input-group">
-        <label>Dry Weight:</label>
-        <input
-          type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
-        />
+        <span className="result-label">Dry Weight:</span>
+        <span className="result-value">{rvDryWeight.toLocaleString()}</span>
       </div>
+      <div className="HelpText">Entered above in RV specs</div>
       <div className="input-group">
         <label>Total Water:</label>
         <input
           type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
+          value={rvPayloadWater}
+          onChange={(e) => setrvPayloadWater(e.target.value)}
         />
       </div>
       <div className="input-group">
         <label>Propane:</label>
         <input
           type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
+          value={rvPayloadPropane}
+          onChange={(e) => setrvPayloadPropane(e.target.value)}
         />
       </div>
       <div className="input-group">
         <label>Batteries:</label>
         <input
           type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
+          value={rvPayloadBatteries}
+          onChange={(e) => setrvPayloadBatteries(e.target.value)}
         />
       </div>
       <div className="input-group">
         <label>Camping Gear:</label>
         <input
           type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
+          value={rvPayloadCampingGear}
+          onChange={(e) => setrvPayloadCampingGear(e.target.value)}
         />
       </div>
       <div className="input-group">
         <label>Food/Clothes/Misc:</label>
         <input
           type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
+          value={rvPayloadFoodClothesMisc}
+          onChange={(e) => setrvPayloadFoodClothesMisc(e.target.value)}
         />
       </div>
       <div className="input-group">
-        <label>Gross Weight Estimate:</label>
-        <input
-          type="number"
-          value={rvDryWeight}
-          onChange={(e) => setrvDryWeight(e.target.value)}
-        />
+        <span className="result-label">Gross Weight Estimate:</span>
+        <span className="result-value">
+          {rvGrossWeightEstimate.toLocaleString()}
+        </span>
       </div>
+      <div className="HelpText">Dry weight + all cargo</div>
       <div className="input-group">
-        <label>RV GVWR:</label>
-        <input
-          type="number"
-          value={rvGVWR}
-          onChange={(e) => setrvGVWR(e.target.value)}
-        />
+        <span className="result-label">RV GVWR:</span>
+        <span className="result-value">{rvGVWR.toLocaleString()}</span>
       </div>
+      <div className="HelpText">Entered above in RV specs</div>
       <div className="input-group">
-        <label>RV Available Payload:</label>
-        <input
-          type="number"
-          value={rvGVWR}
-          onChange={(e) => setrvGVWR(e.target.value)}
-        />
+        <span className="result-label">RV Available Payload:</span>
+        <span className="result-value">
+          {rvAvailablePayload.toLocaleString()}
+        </span>
+      </div>
+      <div className="HelpText">
+        RV GVWR - (RV dry weight + RV cargo). Available payload in RV. Negative
+        number here means RV is overloaded.
       </div>
       {/* ============================ GCWR and Tow Capacity ============================ */}
       <h3>GCWR and Tow Capacity</h3>
-
       <div className="footer">
         <hr></hr>
         <p>
