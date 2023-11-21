@@ -71,6 +71,8 @@ const Calculator = () => {
   const [truckPayloadLeftover, settruckPayloadLeftover] = useState<number>(0);
   const [rvGrossWeightEstimate, setrvGrossWeightEstimate] = useState<number>(0);
   const [rvAvailablePayload, setrvAvailablePayload] = useState<number>(0);
+  const [GCVWHitched, setGCVWHitched] = useState<number>(0);
+  const [GCVWAvailable, setGCVWAvailable] = useState<number>(0);
 
   // ============================ Local storage for all user inputs ============================
   useEffect(() => {
@@ -119,6 +121,8 @@ const Calculator = () => {
         CALrvPayloadFoodClothesMisc
     );
     setrvAvailablePayload(CALrvGVWR - rvGrossWeightEstimate);
+    setGCVWHitched(truckCurbWeight + truckTotalPayload + rvGrossWeightEstimate);
+    setGCVWAvailable(CALtruckGCWR - GCVWHitched);
   }, [
     truckGVWR,
     truckPayloadCapacity,
@@ -137,6 +141,8 @@ const Calculator = () => {
     rvPayloadBatteries,
     rvPayloadCampingGear,
     rvPayloadFoodClothesMisc,
+    truckCurbWeight,
+    GCVWHitched,
   ]);
 
   // const formatNumber = (num) => {
@@ -356,12 +362,36 @@ const Calculator = () => {
       </div>
       {/* ============================ GCWR and Tow Capacity ============================ */}
       <h3>GCWR and Tow Capacity</h3>
+      <div className="input-group">
+        <span className="result-label">GCVW Hitched:</span>
+        <span className="result-value">{GCVWHitched.toLocaleString()}</span>
+      </div>
+      <div className="HelpText">
+        Truck curb weight + truck payload + RV gross weight estimate
+      </div>
+      <div className="input-group">
+        <span className="result-label">GCVW Available:</span>
+        <span className="result-value">{GCVWAvailable.toLocaleString()}</span>
+      </div>
+      <div className="HelpText">
+        GCVW - GCVW Hitched (immediately above value). This is how much more you
+        could tow, in theory.
+      </div>
       <div className="footer">
+        <hr></hr>
+        <p>The towing calculator is brought to you by Abrom Douglas.</p>
+        <p>
+          Please create a ticket here for any feedback, comments, feature
+          requests, or if you find any issues with the calculator.
+        </p>
         <hr></hr>
         <p>
           ©2023{" "}
           <a href="https://weekendrvers.com" target="_blank">
             weekendrvers.com
+          </a>{" "}
+          <a href="https://abrom.dev" target="_blank">
+            abrom.dev
           </a>
         </p>
       </div>
