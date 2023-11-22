@@ -363,26 +363,51 @@ const Calculator = () => {
       {/* ============================ GCWR and Tow Capacity ============================ */}
       <h3>GCWR and Tow Capacity</h3>
       <div className="input-group">
-        <span className="result-label">GCVW Hitched:</span>
+        <span className="result-label">GCWR Hitched:</span>
         <span className="result-value">{GCVWHitched.toLocaleString()}</span>
       </div>
       <div className="HelpText">
         Truck curb weight + truck payload + RV gross weight estimate
       </div>
       <div className="input-group">
-        <span className="result-label">GCVW Available:</span>
+        <span className="result-label">GCWR Available:</span>
         <span className="result-value">{GCVWAvailable.toLocaleString()}</span>
       </div>
       <div className="HelpText">
-        GCVW - GCVW Hitched (immediately above value). This is how much more you
+        GCWR - GCWR Hitched (immediately above value). This is how much more you
         could tow, in theory.
       </div>
       <div className="footer">
         <hr></hr>
-        <p>The towing calculator is brought to you by Abrom Douglas.</p>
         <p>
-          Please create a ticket here for any feedback, comments, feature
-          requests, or if you find any issues with the calculator.
+          The towing calculator is an open source project created by Abrom
+          Douglas.
+        </p>
+        <p>
+          To learn more visit the{" "}
+          <a
+            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com#readme"
+            target="_blank"
+          >
+            GitHub repo
+          </a>
+        </p>
+        <p>
+          Something broken, want a feature added, or just want to say hi- create
+          a{" "}
+          <a
+            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com/issues/new"
+            target="_blank"
+          >
+            issue
+          </a>{" "}
+          or start/participate in a{" "}
+          <a
+            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com/discussions"
+            target="_blank"
+          >
+            discussion
+          </a>
         </p>
         <hr></hr>
         <p>
