@@ -155,6 +155,7 @@ const Calculator = () => {
       <div>
         <img src="/logo512.png"></img>
         <h2>Towing Calculator</h2>
+        <hr></hr>
         {/* ============================ Truck Specs ============================ */}
         <h3>Truck Specs</h3>
         <div className="input-group">
@@ -381,12 +382,16 @@ const Calculator = () => {
         <hr></hr>
         <p>
           The towing calculator is an open source project created by Abrom
-          Douglas.
+          Douglas III. Support this app and others{" "}
+          <a href="https://ko-fi.com/abrom" target="_blank">
+            here
+          </a>
+          .
         </p>
         <p>
           To learn more visit the{" "}
           <a
-            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com#readme"
+            href="https://github.com/iamabrom/towcalculator#readme"
             target="_blank"
           >
             GitHub repo
@@ -396,21 +401,21 @@ const Calculator = () => {
           Something broken, want a feature added, or just want to say hi- create
           a{" "}
           <a
-            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com/issues/new"
+            href="https://github.com/iamabrom/towcalculator/issues/new"
             target="_blank"
           >
             issue
           </a>{" "}
           or start/participate in a{" "}
           <a
-            href="https://github.com/iamabrom/tow-calculator.weekendrvers.com/discussions"
+            href="https://github.com/iamabrom/towcalculator/discussions"
             target="_blank"
           >
             discussion
           </a>
         </p>
         <hr></hr>
-        <p>
+        <p className="copyrightcenter">
           ©2023{" "}
           <a href="https://weekendrvers.com" target="_blank">
             weekendrvers.com
