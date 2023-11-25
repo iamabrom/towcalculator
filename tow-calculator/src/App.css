@@ -25,7 +25,7 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 5em;
+  width: 6em;
   margin-bottom: 1em;
   margin-top: 1em
 }
@@ -74,9 +74,12 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
   margin-bottom: 2px;
   margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
   border: 1px solid #ccc;
   padding: 8px;
   border-radius: 5px;
+  max-width: 90%;
 }
 
 .input-group label,
@@ -143,9 +146,12 @@ input[type="number"],
     font-size: 1.50em;
   }
 
+  .HelpText {
+    font-size: 1em
+  }
+
   .input-group {
     flex-direction: column;
-
   }
 
   input[type="number"],
