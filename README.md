@@ -1,6 +1,6 @@
 # Tow Calculator
 
-https://tow-calculator.weekendrvers.com
+https://towcalculator.app/
 
 Tow Calculator is a responsive web application to help you understand if your tow vehicle can safely tow a trailer. This can also help you understand if your tow vehicle or trailer runs the risk of being overloaded and informs you where you re-distribute payload.
 
