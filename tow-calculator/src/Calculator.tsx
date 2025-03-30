@@ -115,7 +115,7 @@ const Calculator = () => {
     const html = `
   <html>
     <head>
-      <title>Tow Calculator Report</title>
+      <title>Tow Calculator Report | towcalculator.app</title>
       <style>
         body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
         .header { display: flex; align-items: center; gap: 1rem; }
