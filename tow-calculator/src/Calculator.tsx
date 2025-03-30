@@ -1,4 +1,4 @@
-/**
+/*
  * Tow Calculator | towcalculator.app
  * Copyright (c) 2025 Abrom Douglas III
  * Licensed under the MIT License (see LICENSE file for details).
@@ -8,79 +8,36 @@ import React, { useState, useEffect } from "react";
 
 const Calculator = () => {
   // ============================ User Inputs ============================
-  // RV dry weight
-  const [rvDryWeight, setrvDryWeight] = useState<string>(
-    localStorage.getItem("rvDryWeight") || ""
-  );
-  // RV GVWR
-  const [rvGVWR, setrvGVWR] = useState<string>(
-    localStorage.getItem("rvGVWR") || ""
-  );
-  // RV Hitch Weight
-  const [rvHitchWeight, setrvHitchWeight] = useState<string>(
-    localStorage.getItem("rvHitchWeight") || ""
-  );
-  // Truck GVWR
-  const [truckGVWR, settruckGVWR] = useState<string>(
-    localStorage.getItem("truckGVWR") || ""
-  );
-  // Truck GCWR
-  const [truckGCWR, settruckGCWR] = useState<string>(
-    localStorage.getItem("truckGCWR") || ""
-  );
-
-  // Truck Payload Capacity
-  const [truckPayloadCapacity, settruckPayloadCapacity] = useState<string>(
-    localStorage.getItem("truckPayloadCapacity") || ""
-  );
-
-  // Truck GVWR & Payload
-  const [truckPassengers, settruckPassengers] = useState<string>(
-    localStorage.getItem("truckPassengers") || ""
-  );
-
-  // Truck Cargo
-  const [truckCargo, settruckCargo] = useState<string>(
-    localStorage.getItem("truckCargo") || ""
-  );
-
-  // RV Payload: Total Water
-  const [rvPayloadWater, setrvPayloadWater] = useState<string>(
-    localStorage.getItem("rvPayloadWater") || ""
-  );
-
-  // RV Payload: Total Propane
-  const [rvPayloadPropane, setrvPayloadPropane] = useState<string>(
-    localStorage.getItem("rvPayloadPropane") || ""
-  );
-
-  // RV Payload: Total Batteries
-  const [rvPayloadBatteries, setrvPayloadBatteries] = useState<string>(
-    localStorage.getItem("rvPayloadBatteries") || ""
-  );
-
-  // RV Payload: Total Camping Gear
-  const [rvPayloadCampingGear, setrvPayloadCampingGear] = useState<string>(
-    localStorage.getItem("rvPayloadCampingGear") || ""
-  );
-
-  // RV Payload: Total Food, Clothes, Misc
-  const [rvPayloadFoodClothesMisc, setrvPayloadFoodClothesMisc] =
-    useState<string>(localStorage.getItem("rvPayloadFoodClothesMisc") || "");
+  const [rvDryWeight, setrvDryWeight] = useState<string>(localStorage.getItem("rvDryWeight") || "");
+  const [rvGVWR, setrvGVWR] = useState<string>(localStorage.getItem("rvGVWR") || "");
+  const [rvHitchWeight, setrvHitchWeight] = useState<string>(localStorage.getItem("rvHitchWeight") || "");
+  const [truckGVWR, settruckGVWR] = useState<string>(localStorage.getItem("truckGVWR") || "");
+  const [truckGCWR, settruckGCWR] = useState<string>(localStorage.getItem("truckGCWR") || "");
+  const [truckPayloadCapacity, settruckPayloadCapacity] = useState<string>(localStorage.getItem("truckPayloadCapacity") || "");
+  const [truckPassengers, settruckPassengers] = useState<string>(localStorage.getItem("truckPassengers") || "");
+  const [truckCargo, settruckCargo] = useState<string>(localStorage.getItem("truckCargo") || "");
+  const [rvPayloadWater, setrvPayloadWater] = useState<string>(localStorage.getItem("rvPayloadWater") || "");
+  const [rvPayloadPropane, setrvPayloadPropane] = useState<string>(localStorage.getItem("rvPayloadPropane") || "");
+  const [rvPayloadBatteries, setrvPayloadBatteries] = useState<string>(localStorage.getItem("rvPayloadBatteries") || "");
+  const [rvPayloadCampingGear, setrvPayloadCampingGear] = useState<string>(localStorage.getItem("rvPayloadCampingGear") || "");
+  const [rvPayloadFoodClothesMisc, setrvPayloadFoodClothesMisc] = useState<string>(localStorage.getItem("rvPayloadFoodClothesMisc") || "");
 
   // ============================ Calculated Outputs ============================
   const [truckCurbWeight, settruckCurbWeight] = useState<number>(0);
   const [truckTowingCapacity, settruckTowingCapacity] = useState<number>(0);
   const [truckTotalPayload, settruckTotalPayload] = useState<number>(0);
-  const [truckTotalPayloadHitched, settruckTotalPayloadHitched] =
-    useState<number>(0);
+  const [truckTotalPayloadHitched, settruckTotalPayloadHitched] = useState<number>(0);
   const [truckPayloadLeftover, settruckPayloadLeftover] = useState<number>(0);
   const [rvGrossWeightEstimate, setrvGrossWeightEstimate] = useState<number>(0);
   const [rvAvailablePayload, setrvAvailablePayload] = useState<number>(0);
   const [GCVWHitched, setGCVWHitched] = useState<number>(0);
   const [GCVWAvailable, setGCVWAvailable] = useState<number>(0);
 
-  // ============================ Local storage for all user inputs ============================
+  // ============================ Print Dialog ============================
+  const [showPrintDialog, setShowPrintDialog] = useState(false);
+  const [truckName, setTruckName] = useState("");
+  const [trailerName, setTrailerName] = useState("");
+
   useEffect(() => {
     localStorage.setItem("rvDryWeight", rvDryWeight);
     localStorage.setItem("rvGVWR", rvGVWR);
@@ -96,7 +53,6 @@ const Calculator = () => {
     localStorage.setItem("rvPayloadCampingGear", rvPayloadCampingGear);
     localStorage.setItem("rvPayloadFoodClothesMisc", rvPayloadFoodClothesMisc);
 
-    // ============================ Math parsing ============================
     const CALrvHitchWeight = parseFloat(rvHitchWeight) || 0;
     const CALtruckGVWR = parseFloat(truckGVWR) || 0;
     const CALtruckGCWR = parseFloat(truckGCWR) || 0;
@@ -109,26 +65,23 @@ const Calculator = () => {
     const CALrvPayloadPropane = parseFloat(rvPayloadPropane) || 0;
     const CALrvPayloadBatteries = parseFloat(rvPayloadBatteries) || 0;
     const CALrvPayloadCampingGear = parseFloat(rvPayloadCampingGear) || 0;
-    const CALrvPayloadFoodClothesMisc =
-      parseFloat(rvPayloadFoodClothesMisc) || 0;
+    const CALrvPayloadFoodClothesMisc = parseFloat(rvPayloadFoodClothesMisc) || 0;
 
-    // ============================ Math calculations ============================
-    settruckCurbWeight(CALtruckGVWR - CALtruckPayloadCapacity);
+    const totalPayload = CALtruckPassengers + CALtruckCargo;
+    const payloadHitched = totalPayload + CALrvHitchWeight;
+    const rvGrossEstimate = CALrvDryWeight + CALrvPayloadWater + CALrvPayloadPropane + CALrvPayloadBatteries + CALrvPayloadCampingGear + CALrvPayloadFoodClothesMisc;
+    const truckCurb = CALtruckGVWR - CALtruckPayloadCapacity;
+    const gcwrHitched = truckCurb + totalPayload + rvGrossEstimate;
+
+    settruckCurbWeight(truckCurb);
     settruckTowingCapacity(CALtruckGCWR - CALtruckGVWR);
-    settruckTotalPayload(CALtruckPassengers + CALtruckCargo);
-    settruckTotalPayloadHitched(truckTotalPayload + CALrvHitchWeight);
-    settruckPayloadLeftover(CALtruckPayloadCapacity - truckTotalPayloadHitched);
-    setrvGrossWeightEstimate(
-      CALrvDryWeight +
-        CALrvPayloadWater +
-        CALrvPayloadPropane +
-        CALrvPayloadBatteries +
-        CALrvPayloadCampingGear +
-        CALrvPayloadFoodClothesMisc
-    );
-    setrvAvailablePayload(CALrvGVWR - rvGrossWeightEstimate);
-    setGCVWHitched(truckCurbWeight + truckTotalPayload + rvGrossWeightEstimate);
-    setGCVWAvailable(CALtruckGCWR - GCVWHitched);
+    settruckTotalPayload(totalPayload);
+    settruckTotalPayloadHitched(payloadHitched);
+    settruckPayloadLeftover(CALtruckPayloadCapacity - payloadHitched);
+    setrvGrossWeightEstimate(rvGrossEstimate);
+    setrvAvailablePayload(CALrvGVWR - rvGrossEstimate);
+    setGCVWHitched(gcwrHitched);
+    setGCVWAvailable(CALtruckGCWR - gcwrHitched);
   }, [
     truckGVWR,
     truckPayloadCapacity,
@@ -138,26 +91,108 @@ const Calculator = () => {
     rvHitchWeight,
     rvDryWeight,
     rvGVWR,
-    truckTotalPayload,
-    truckTotalPayloadHitched,
-    rvGrossWeightEstimate,
-    rvAvailablePayload,
     rvPayloadWater,
     rvPayloadPropane,
     rvPayloadBatteries,
     rvPayloadCampingGear,
-    rvPayloadFoodClothesMisc,
-    truckCurbWeight,
-    GCVWHitched,
+    rvPayloadFoodClothesMisc
   ]);
 
-  // const formatNumber = (num) => {
-  //   return num.toLocaleString();
-  // };
+  const generatePrintableReport = () => {
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) return;
 
-  // ============================ HTML components ============================
+    const logoUrl = window.location.origin + "/logo512.png";
+    const currentDate = new Date();
+    const formattedDate = new Intl.DateTimeFormat('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    }).format(currentDate);
+    const copyrightYear = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+    }).format(currentDate);
+    const html = `
+  <html>
+    <head>
+      <title>Tow Calculator Report</title>
+      <style>
+        body { font-family: sans-serif; padding: 2rem; max-width: 800px; margin: auto; }
+        .header { display: flex; align-items: center; gap: 1rem; }
+        .header img { max-width: 120px; height: auto; }
+        .header-text { display: flex; flex-direction: column; justify-content: center; }
+        .header-text h2, .header-text h3 { margin: 0.2rem 0; line-height: 1.2; }
+        h2, h3 { margin: 0.3rem 0; }
+        table { width: 80%; border-collapse: collapse; margin-top: 0.50rem; }
+        th { width: 65%; }
+        td { width: 35%; }
+        th, td { border: 1px solid #ccc; padding: 0.25rem; text-align: left; }
+        .section { margin-top: 1.25rem; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <img src="${logoUrl}" alt="Logo" />
+        <div class="header-text">
+          <h2>Tow Calculator</h2>
+          <h3>Truck: ${truckName}</h3>
+          <h3>Trailer: ${trailerName}</h3>
+          <p>Date: ${formattedDate}</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Truck Data</h3>
+        <table>
+          <tr><th>GVWR</th><td>${truckGVWR} lbs</td></tr>
+          <tr><th>GCWR</th><td>${truckGCWR} lbs</td></tr>
+          <tr><th>Payload Capacity</th><td>${truckPayloadCapacity} lbs</td></tr>
+          <tr><th>Passengers</th><td>${truckPassengers} lbs</td></tr>
+          <tr><th>Cargo</th><td>${truckCargo} lbs</td></tr>
+          <tr><th>Curb Weight</th><td>${truckCurbWeight} lbs</td></tr>
+          <tr><th>Towing Capacity</th><td>${truckTowingCapacity} lbs</td></tr>
+          <tr><th>Total Payload (with Hitch)</th><td>${truckTotalPayloadHitched} lbs</td></tr>
+          <tr><th>Available Payload</th><td>${truckPayloadLeftover} lbs</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h3>RV / Trailer Data</h3>
+        <table>
+          <tr><th>Dry Weight</th><td>${rvDryWeight} lbs</td></tr>
+          <tr><th>GVWR</th><td>${rvGVWR} lbs</td></tr>
+          <tr><th>Hitch Weight</th><td>${rvHitchWeight} lbs</td></tr>
+          <tr><th>Water</th><td>${rvPayloadWater} lbs</td></tr>
+          <tr><th>Propane</th><td>${rvPayloadPropane} lbs</td></tr>
+          <tr><th>Batteries</th><td>${rvPayloadBatteries} lbs</td></tr>
+          <tr><th>Camping Gear</th><td>${rvPayloadCampingGear} lbs</td></tr>
+          <tr><th>Food/Clothes/Misc</th><td>${rvPayloadFoodClothesMisc} lbs</td></tr>
+          <tr><th>Gross Weight Estimate</th><td>${rvGrossWeightEstimate} lbs</td></tr>
+          <tr><th>Available Payload</th><td>${rvAvailablePayload} lbs</td></tr>
+        </table>
+      </div>
+
+      <div class="section">
+        <h3>GCWR Summary</h3>
+        <table>
+          <tr><th>GCWR Hitched</th><td>${GCVWHitched} lbs</td></tr>
+          <tr><th>GCWR Available</th><td>${GCVWAvailable} lbs</td></tr>
+        </table>
+      </div>
+
+      <script>window.onload = () => window.print();</script>
+      <p style="font-style: italic;">© ${copyrightYear} https://towcalculator.app</p>
+    </body>
+  </html>
+`;
+    printWindow.document.write(html);
+    printWindow.document.close();
+    setShowPrintDialog(false);
+  };
+
   return (
     <div>
+      <div>
       <div>
         <img src="/logo512.png"></img>
         <h2>Towing Calculator</h2>
@@ -384,6 +419,26 @@ const Calculator = () => {
         GCWR - GCWR Hitched (immediately above value). This is how much more you
         could tow, in theory.
       </div>
+      <div className="print-button-container">
+      <button onClick={() => setShowPrintDialog(true)}>Generate Tow Report</button>
+      </div>
+      {showPrintDialog && (
+        <div className="print-dialog">
+          <div className="print-dialog-content">
+            <h4>Provide Truck and Trailer Name</h4>
+            <label>Truck Name: </label>
+            <input type="text" value={truckName} onChange={(e) => setTruckName(e.target.value)} />
+            <br></br>
+            <br></br>
+            <label>Trailer Name: </label>
+            <input type="text" value={trailerName} onChange={(e) => setTrailerName(e.target.value)} />
+            <div style={{ marginTop: '1rem' }}>
+              <button onClick={generatePrintableReport}>Generate Report</button>
+              <button onClick={() => setShowPrintDialog(false)} style={{ marginLeft: '1rem' }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="footer">
         <hr></hr>
         <p>
@@ -432,6 +487,7 @@ const Calculator = () => {
           </a>
         </p>
       </div>
+    </div>
     </div>
   );
 };
