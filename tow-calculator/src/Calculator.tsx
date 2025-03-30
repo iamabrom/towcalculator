@@ -1,3 +1,9 @@
+/**
+ * Tow Calculator | towcalculator.app
+ * Copyright (c) 2025 Abrom Douglas III
+ * Licensed under the MIT License (see LICENSE file for details).
+ */
+
 import React, { useState, useEffect } from "react";
 
 const Calculator = () => {
@@ -416,7 +422,8 @@ const Calculator = () => {
         </p>
         <hr></hr>
         <p className="copyrightcenter">
-          ©2023{" "}
+          ©2025{" Abrom Douglas III"}
+          <br></br>
           <a href="https://weekendrvers.com" target="_blank">
             weekendrvers.com
           </a>{" "}
